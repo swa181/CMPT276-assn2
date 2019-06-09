@@ -5,62 +5,165 @@
 </head>
 
 <body>
-
-  <% include ../partials/nav.ejs %>
-
-<div class="jumbotron text-center">
-  <div class="container">
-    <a href="/" class="lang-logo">
-      <img src="/lang-logo.png">
-    </a>
-    <h1>Getting Started with Node on Heroku</h1>
-    <p>This is a sample Node application deployed to Heroku. It's a reasonably simple app - but a good foundation for understanding how to get the most out of the Heroku platform.</p>
-    <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs"><span class="glyphicon glyphicon-flash"></span> Getting Started with Node</a>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/heroku/node-js-getting-started"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
+  
+  <h1>Students Visualizer</h1>
+  <div id="ButtonContainer">
+    <button id="myBtn" onclick="openAddStudent()"><h5>Add new student</h5></button>
+    <button><h5>Edit/Delete student</h5></button>
   </div>
-</div>
-<div class="container">
-  <div class="alert alert-info text-center" role="alert">
-    To deploy your own copy, and learn the fundamentals of the Heroku platform, head over to the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" class="alert-link">Getting Started with Node on Heroku</a> tutorial.
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info-sign"></span> How this sample app works</h3>
-      <ul>
-        <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/heroku/node-js-getting-started">Heroku Button</a> on the repository.</li>
 
-        <li>When Heroku received the source code, it fetched all the dependencies in the <a href="https://github.com/heroku/node-js-getting-started/blob/master/package.json">package.json</a>, creating a deployable slug.</li>
-        <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which the slug can be mounted and executed.</li>
-        <li>You can scale your app, manage it, and deploy over <a href="https://addons.heroku.com/">150 add-on services</a>, from the Dashboard or CLI.</li>
-      </ul>
+  <!-- TODO: Add info about each person via on hover -->
+  <!-- Each student will have the same height but the widths will be depending on how fat they are -->
+  <!-- TODO: If have time, add a toggle show all/hide all info -->
+  <!-- TODO: Default next student id is increment of the largestID -->
+  <!-- TODO: Gradient for knowing who is in what year -->
+  <div id="VisualizerContainer">
+    <div id="displayResults">
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head" style="background-color: red;"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+        <span class="tooltiptext">Sandy Wu<br/>id: 301316914<br/>GPA: 3.4</span>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head" style="background-color: black;"></div>
+        <div class="body" style="width:40px; height:50px; background-color:red"></div>
+        <span class="tooltiptext">Yan Lang<br/>GPA: 3.0<br/></span>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:red"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:red"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+      <div class="student" style="height:80px; width: 50px;">
+        <div class="head"></div>
+        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
+      </div>
+
     </div>
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-link"></span> Next Steps</h3>
-      <ul>
-        <li>If you are following the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started</a> guide, then please head back to the tutorial and follow the next steps!</li>
-        <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-        <ul>
-          <li><code>git clone https://github.com/heroku/node-js-getting-started.git</code> - this will create a local copy of the source code for the app</li>
-          <li><code>cd node-js-getting-started</code> - change directory into the local source code repository</li>
-          <li><code>heroku git:remote -a &lt;your-app-name></code> - associate the Heroku app with the repository</li>
-          <li>You'll now be set up to run the app locally, or <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs#push-local-changes">deploy changes</a> to Heroku</li>
-        </ul>
-      </ul>
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started with Node on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/deploying-nodejs">Deploying Node Apps on Heroku</a></li>
-      </ul>
-    </div>
-  </div> <!-- row -->
-   <div class="alert alert-info text-center" role="alert">
-    Please do work through the Getting Started guide, even if you do know how to build such an application.  The guide covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order to build and deploy your own apps.
   </div>
-</div>
 
+ 
+  <!-- The Modal -->
+  <div id="AddStudentModal" class="modal">
+    <!-- Modal content -->
+    <div id="QueryContainer" class="modal-content">
+      <span class="close" onclick="closeAddStudent()">&times;</span>
+        <h2>Add new student</h2>
+        <form action="/action_page.php" id="AddStudent" method="POST">
+          <table>
+            <tr>
+              <td>Student ID:</td><td><input type="number" name="stid"></td>
+            </tr>
+            <tr>
+              <td>First Name:</td><td><input type="text" placeholder="First Name" name="name"></td>
+            </tr>
+            <tr>
+              <td>Last Name:</td>
+              <td><input type="text" placeholder="Last Name" name="lName"></td>
+            </tr>
+            <tr>
+              <td>Weight:</td><td><input type="number" name="weight"> lbs</td>
+            </tr>
+            <tr>
+              <td>Height:</td><td><input type="number" name="height"> cm</td>
+            </tr>
+            <tr>
+              <td>Hair Colour:</td><td><input type="color" name="hairColor"></td>
+            </tr>
+            <tr>
+              <td>GPA:</td><td><input placeholder="ex. 3.40" type="number" name="gpa"> / 4.33</td>
+            </tr>
+            <tr>
+              <!-- Male or Female -->
+              <td>Gender:</td>
+              <td>
+                <input type="radio" name="gender" value="m" checked>Male </input>
+                <input type="radio" name="gender" value="f">Female </input>
+                <input type="radio" name="gender" value="o">Prefer not to say</input>
+              </td>
+            </tr>
+          </table>
+          <input type="submit" value="Submit">
+        </form> 
+    </div>
 
+  </div>
+
+  <div id="attribution">Sandy Wu &#9699; 2019.</div>
+  <script>
+    // Modal BEGIN: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+
+    var addStudentModal = document.getElementById("AddStudentModal");
+    var editStudentModal = document.getElementById("EditStudentModal");
+
+    // When the user clicks the button, open the modal 
+    openAddStudent = () => addStudentModal.style.display = "block";
+    openEditStudent = () => editStudentModal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    closeAddStudent = () => addStudentModal.style.display = "none";
+    closeEditStudent = () => editStudentModal.style.display = "none";
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == addStudentModal) closeAddStudent();
+      if (event.target == addStudentModal) closeEditStudent();
+    }
+
+    // Modal END: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+  </script>
+
+  <script type='text/javascript' src="./displayResults.js"></script>
 </body>
 </html>
