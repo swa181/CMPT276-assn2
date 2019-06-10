@@ -1,23 +1,23 @@
 # Student Visualizer
 
-By Sandy Wu 301316914.
+By Sandy Wu.
 
 
 ## Student Attributes
 
-Student ID - Determined by the database for administrative purposes in ordering who was added first. Cannot be changed.
+**Student ID** - Determined by the database for administrative purposes in ordering who was added first. Cannot be changed.
 
-First Name: Database value of 'name'.
+**First Name:** Database value of 'name'.
 
-Weight: Max value of 300. Units in pounds (lbs).
+**Weight:** Max value of 300. Units in pounds (lbs).
 
-Height: Max value of 210. Units in centimetres (cm).
+**Height:** Max value of 210. Units in centimetres (cm).
 
-Hair Color: Includes a easy-to-use gradient color picker.
+**Hair Color:** Includes a easy-to-use gradient color picker.
 
-GPA: Lowest 0. Highest 4.33.
+**GPA:** Lowest 0. Highest 4.33.
 
-Gender: Male or Female or Other.
+**Gender:** Male or Female or Other.
 
 
 ## Sorting
