@@ -12,8 +12,6 @@
     <button onclick="openEditStudent()"><h5>Edit/Delete student</h5></button>
   </div>
 
-  <!-- TODO: If have time, add a toggle show all/hide all info -->
-  <!-- TODO: Gradient for knowing who is in what year -->
   <!-- The max height is 210cm  -->
   <!-- The max weight is 300lbs -->
   <div id="VisualizerContainer">
@@ -34,7 +32,7 @@
     <div style="text-align: center; margin: 0px auto;">
       Sort students by
       <select name="studentSort" required>
-        <option value="stid">Student ID</option>
+        <option value="stid">Recently Added</option>
         <option value="name">Name</option>
         <option value="weight">Weight</option>
         <option value="height">Height</option>
@@ -44,13 +42,6 @@
       <input type="submit" value="Submit">
     </div>
   </form>
-<!-- 
-  Science: 🔬
-  Arts: 🖌
-  Business:  📈 
-  Engineering: 🛠 
-
- -->
 
   <!-- The Modal -->
   <div id="EditStudentModal" class="modal">
