@@ -19,77 +19,13 @@
   <!-- TODO: Gradient for knowing who is in what year -->
   <div id="VisualizerContainer">
     <div id="displayResults">
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head" style="background-color: red;"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-        <span class="tooltiptext">Sandy Wu<br/>id: 301316914<br/>GPA: 3.4</span>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head" style="background-color: black;"></div>
-        <div class="body" style="width:40px; height:50px; background-color:red"></div>
-        <span class="tooltiptext">Yan Lang<br/>GPA: 3.0<br/></span>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:red"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:red"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-      <div class="student" style="height:80px; width: 50px;">
-        <div class="head"></div>
-        <div class="body" style="width:40px; height:50px; background-color:blue"></div>
-      </div>
-
+      <% results.forEach(function(r) { %>
+        <div class="student" style="height:80px; width: 50px;">
+          <div class="head" style="background-color: <%= r.haircolor %>"></div>
+          <div class="body" style="width:40px; height:50px; background-color: <%= r.gender == 'm' ? 'blue' : r.gender == 'f' ? 'red' : 'yellow' %>"></div>
+          <span class="tooltiptext"><%= r.name %> <%= r.lname %><br/>id: <%= r.stid %><br/>GPA: <%= r.gpa %></span>
+        </div>
+      <% }); %>
     </div>
   </div>
 
@@ -100,7 +36,7 @@
     <div id="QueryContainer" class="modal-content">
       <span class="close" onclick="closeAddStudent()">&times;</span>
         <h2>Add new student</h2>
-        <form action="/action_page.php" id="AddStudent" method="POST">
+        <form action="/addStudentData" id="AddStudent" method="POST">
           <table>
             <tr>
               <td>Student ID:</td><td><input type="number" name="stid"></td>
