@@ -6,14 +6,6 @@ const PORT = process.env.PORT || 5000;
 
 const { Pool } = require('pg');
 
-// var pool = new Pool({
-//   user: 'postgres',
-//   password: '12345',
-//   host: 'localhost',
-//   database: 'postgres'
-// });
-
-
 var pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -44,16 +36,16 @@ express()
       `;
 
     pool.query(query, function(error, result){
-      // if there is an error, there will be an error object here
-      // if successful, the result will have it there
-      // var results = { 'results': (result.rows[0].id) ? result.rows : [] };
-      // res.render('pages/db', results);
-      // req.body
-      console.log("this is good", result);
-      console.log("this is error", error);
+      // console.log("this is good", result);
+      // console.log("this is error", error);
       pool.query('SELECT * FROM student;', (err, renderResults) => {
-        var results = { 'results': (renderResults.rows[0].stid) ? renderResults.rows : [] };
-        res.render('pages/index', results);
+        pool.query('SELECT MAX(stid) FROM student;', function(maxIdError, maxId) {
+          var results = {
+            'results': renderResults.rows ? renderResults.rows : [],
+            'maxId': renderResults.rows ? maxId.rows[0].max : 0
+          };
+          res.render('pages/index', results);
+        });
       });
     });
 
@@ -61,15 +53,84 @@ express()
   .get('/', (req, res) => {
     // returns an entire array of student data
     pool.query('SELECT * FROM student;', function(error, result){
-      // if there is an error, there will be an error object here
-      // if successful, the result will have it there
-      var results = { 'results': (result.rows[0].stid) ? result.rows : [] };
-      res.render('pages/index', results);
-      // req.body
-      console.log("this is the error", error);
-      console.log("this is the result", result);
-      // res.send(JSON.stringify({rows: result.rows}));
+      pool.query('SELECT MAX(stid) FROM student;', function(maxIdError, maxId) {
+        var results = {
+          'results': result.rows ? result.rows : [],
+          'maxId': result.rows ? maxId.rows[0].max : 0
+          };
+        // console.log(results);
+        res.render('pages/index', results);
+      });
+
     });
   })
-  // .get('/', (req, res) => res.render('pages/index'))
+  .post('/sortStudentData', (req, res) => {
+    const {
+      studentSort
+    } = req.body;
+
+    var lastNameSort = studentSort === 'name' ? ', lname ASC' : '';
+
+    var query = `
+      SELECT *
+      FROM student
+      ORDER BY ${studentSort} ASC ${lastNameSort};
+      `;
+
+    pool.query(query, (err, renderResults) => {
+      pool.query('SELECT MAX(stid) FROM student;', function(maxIdError, maxId) {
+        var results = {
+          'results': renderResults.rows ? renderResults.rows : [],
+          'maxId': renderResults.rows ? maxId.rows[0].max : 0
+        };
+        res.render('pages/index', results);
+      });
+    });
+
+  })
+  .post('/editStudentData', (req, res) => {
+    // edits one student entry
+    const {
+      stid,
+      name,
+      lName,
+      weight,
+      height,
+      hairColor,
+      gpa,
+      gender,
+      willDelete
+    } = req.body;
+
+    var query = '';
+    
+    // We need to keep track of the old values and the new values
+    if (willDelete == "true") {
+      query = `
+        DELETE FROM student
+        WHERE stid=${stid};
+        `;
+    } else {
+      query = `
+        UPDATE student
+        SET name='${name}', lName='${lName}', weight=${weight}, height=${height}, hairColor='${hairColor}', gpa=${gpa}, gender='${gender}'
+        WHERE stid=${stid};
+        `;
+    }
+
+    pool.query(query, function(error, result){
+      // var results = { 'results': (result.rows[0].id) ? result.rows : [] };
+      // res.render('pages/db', results);
+      pool.query('SELECT * FROM student;', (err, renderResults) => {
+        pool.query('SELECT MAX(stid) FROM student;', function(maxIdError, maxId) {
+          var results = {
+            'results': renderResults.rows ? renderResults.rows : [],
+            'maxId': renderResults.rows ? maxId.rows[0].max : 0
+          };
+          res.render('pages/index', results);
+        });
+      });
+    });
+
+  })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))

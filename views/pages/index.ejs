@@ -9,25 +9,128 @@
   <h1>Students Visualizer</h1>
   <div id="ButtonContainer">
     <button id="myBtn" onclick="openAddStudent()"><h5>Add new student</h5></button>
-    <button><h5>Edit/Delete student</h5></button>
+    <button onclick="openEditStudent()"><h5>Edit/Delete student</h5></button>
   </div>
 
-  <!-- TODO: Add info about each person via on hover -->
-  <!-- Each student will have the same height but the widths will be depending on how fat they are -->
   <!-- TODO: If have time, add a toggle show all/hide all info -->
-  <!-- TODO: Default next student id is increment of the largestID -->
   <!-- TODO: Gradient for knowing who is in what year -->
+  <!-- The max height is 210cm  -->
+  <!-- The max weight is 300lbs -->
   <div id="VisualizerContainer">
     <div id="displayResults">
       <% results.forEach(function(r) { %>
-        <div class="student" style="height:80px; width: 50px;">
-          <div class="head" style="background-color: <%= r.haircolor %>"></div>
-          <div class="body" style="width:40px; height:50px; background-color: <%= r.gender == 'm' ? 'blue' : r.gender == 'f' ? 'red' : 'yellow' %>"></div>
+        <div class="student" style="height:90px; width: 60px">
+          <div class="studentContainer">
+            <div class="head" style="background-color: <%= r.haircolor %>"></div>
+            <div class="body" style="width:<%= (r.weight / 300) * 60 %>px; height:<%= (r.height / 210) * 60 %>px; background-color: <%= r.gender == 'm' ? 'blue' : r.gender == 'f' ? 'red' : 'gold' %>"></div>
+          </div>
           <span class="tooltiptext"><%= r.name %> <%= r.lname %><br/>id: <%= r.stid %><br/>GPA: <%= r.gpa %></span>
         </div>
       <% }); %>
     </div>
   </div>
+  <br />
+  <form action="/sortStudentData" id="SortStudent" method="POST">
+    <div style="text-align: center; margin: 0px auto;">
+      Sort students by
+      <select name="studentSort" required>
+        <option value="stid">Student ID</option>
+        <option value="name">Name</option>
+        <option value="weight">Weight</option>
+        <option value="height">Height</option>
+        <option value="gpa">GPA</option>
+        <option value="gender">Gender</option>
+      </select>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+<!-- 
+  Science: 🔬
+  Arts: 🖌
+  Business:  📈 
+  Engineering: 🛠 
+
+ -->
+
+  <!-- The Modal -->
+  <div id="EditStudentModal" class="modal">
+      <!-- Modal content -->
+      <div id="QueryContainer" class="modal-content">
+        <span class="close" onclick="closeEditStudent()">&times;</span>
+          <h2>Edit a student</h2>
+          <table>
+            <tr>
+              <td>Edit a student:</td>
+              <td>
+                <select id="selectEditStudent" name="aStudent" onchange="updateEditStudentForm()">
+                  <option></option>
+                  <% results.forEach(function(r) { %>
+                    <option
+                      id="<%= r.stid %>"
+                      value="<%= r.stid %>"
+                      data-studentID="<%= r.stid %>"
+                      data-studentName="<%= r.name %>"
+                      data-studentLName="<%= r.lname %>"
+                      data-studentWeight="<%= r.weight %>"
+                      data-studentHeight="<%= r.height %>"
+                      data-studentHairColor="<%= r.haircolor %>"
+                      data-studentGPA="<%= r.gpa %>"
+                      data-studentGender="<%= r.gender %>"
+                      ><%= r.stid %> <%= r.name %> <%= r.lname %></option>
+                  <% }); %>
+                </select>
+              </td>
+            </tr>
+          </table>
+          <form action="/editStudentData" id="EditStudent" method="POST">
+            <table>
+              <!-- Pre populate the form with the values of the current student -->
+              <tr>
+                <td>Student ID:</td>
+                <td><input id="edit_stid" type="text" name="stid" readonly required></td>
+              </tr>
+              <tr>
+                <td>First Name:</td>
+                <td><input id="edit_name" type="text" placeholder="First Name" name="name" maxlength="30" required></td>
+              </tr>
+              <tr>
+                <td>Last Name:</td>
+                <td><input id="edit_lName" type="text" placeholder="Last Name" name="lName" maxlength="30" required></td>
+              </tr>
+              <tr>
+                <td>Weight:</td>
+                <td><input id="edit_weight" type="number" name="weight" min="0" max="300" required> lbs</td>
+              </tr>
+              <tr>
+                <td>Height:</td>
+                <td><input id="edit_height" type="number" name="height" min="0" max="210" required> cm</td>
+              </tr>
+              <tr>
+                <td>Hair Colour:</td>
+                <td><input id="edit_hairColor" type="color" name="hairColor" required></td>
+              </tr>
+              <tr>
+                <td>GPA:</td>
+                <td><input id="edit_gpa" placeholder="ex. 3.40" type="number" name="gpa" step="0.01" min="0" max="4.33" required> / 4.33</td>
+              </tr>
+              <tr>
+                <!-- Male or Female -->
+                <td>Gender:</td>
+                <td>
+                  <input id="edit_gender_m" type="radio" name="gender" value="m" checked>Male </input>
+                  <input id="edit_gender_f" type="radio" name="gender" value="f">Female </input>
+                  <input id="edit_gender_o" type="radio" name="gender" value="o">Other</input>
+                </td>
+              </tr>
+              <tr>
+                <td><br/>Delete Student?</td><td><br/><input type="checkbox" name="willDelete" value="true" onclick="window.alert('Deleting a student be undone.')"></td><br>
+              </tr>
+            </table>
+            <br/>
+            <div style="text-align: center"><input type="submit" value="Submit"></div>
+          </form> 
+      </div>
+    </div>
 
  
   <!-- The Modal -->
@@ -35,43 +138,30 @@
     <!-- Modal content -->
     <div id="QueryContainer" class="modal-content">
       <span class="close" onclick="closeAddStudent()">&times;</span>
-        <h2>Add new student</h2>
-        <form action="/addStudentData" id="AddStudent" method="POST">
-          <table>
-            <tr>
-              <td>Student ID:</td><td><input type="number" name="stid"></td>
-            </tr>
-            <tr>
-              <td>First Name:</td><td><input type="text" placeholder="First Name" name="name"></td>
-            </tr>
-            <tr>
-              <td>Last Name:</td>
-              <td><input type="text" placeholder="Last Name" name="lName"></td>
-            </tr>
-            <tr>
-              <td>Weight:</td><td><input type="number" name="weight"> lbs</td>
-            </tr>
-            <tr>
-              <td>Height:</td><td><input type="number" name="height"> cm</td>
-            </tr>
-            <tr>
-              <td>Hair Colour:</td><td><input type="color" name="hairColor"></td>
-            </tr>
-            <tr>
-              <td>GPA:</td><td><input placeholder="ex. 3.40" type="number" name="gpa"> / 4.33</td>
-            </tr>
-            <tr>
-              <!-- Male or Female -->
-              <td>Gender:</td>
-              <td>
-                <input type="radio" name="gender" value="m" checked>Male </input>
-                <input type="radio" name="gender" value="f">Female </input>
-                <input type="radio" name="gender" value="o">Prefer not to say</input>
-              </td>
-            </tr>
-          </table>
-          <input type="submit" value="Submit">
-        </form> 
+      <h2>Add new student</h2>
+      <form action="/addStudentData" id="AddStudent" method="POST">
+        <table>
+          <!-- <input type="number" name="stid"> -->
+          <tr><td>New student ID:</td><td><input id="add_stid" type="text" name="stid" value="<%= maxId + 1%>" readonly required></td></tr>
+          <tr><td><br/>First Name:</td><td><br/><input type="text" placeholder="First Name" name="name" maxlength="30" required></td></tr>
+          <tr><td>Last Name:</td><td><input type="text" placeholder="Last Name" name="lName" maxlength="30" required></td></tr>
+          <tr><td>Weight:</td><td><input type="number" name="weight" min="0" max="300" required> lbs</td></tr>
+          <tr><td>Height:</td><td><input type="number" name="height" min="0" max="210"  required> cm</td></tr>
+          <tr><td>Hair Colour:</td><td><input type="color" name="hairColor" required></td></tr>
+          <tr><td>GPA:</td><td><input placeholder="ex. 3.40" type="number" name="gpa" step="0.01" min="0" max="4.33" required> / 4.33</td></tr>
+          <tr>
+            <!-- Male or Female -->
+            <td>Gender:</td>
+            <td>
+              <input type="radio" name="gender" value="m" checked>Male </input>
+              <input type="radio" name="gender" value="f">Female </input>
+              <input type="radio" name="gender" value="o">Other</input>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <div style="text-align: center"><input type="submit" value="Submit"></div>
+      </form> 
     </div>
 
   </div>
@@ -94,12 +184,52 @@
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == addStudentModal) closeAddStudent();
-      if (event.target == addStudentModal) closeEditStudent();
+      if (event.target == editStudentModal) closeEditStudent();
     }
 
     // Modal END: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+
+    function getEditStudentAttributeValue(attribute) {
+      return document.getElementById(document.getElementById("selectEditStudent").value).getAttribute(attribute);
+    }
+
+    function updateEditStudentForm() {
+      var editStudentAttribtues = [
+        'data-studentID',
+        'data-studentName',
+        'data-studentLName',
+        'data-studentWeight',
+        'data-studentHeight',
+        'data-studentHairColor',
+        'data-studentGPA',
+        'data-studentGender'
+      ];
+
+      var studentAttributes = [
+        'stid',
+        'name',
+        'lName',
+        'weight',
+        'height',
+        'hairColor',
+        'gpa'
+      ];
+
+      const EDIT_PREFIX = "edit_";
+      const EDIT_GENDER_PREFIX = "edit_gender_"
+
+      studentAttributes.forEach((attribute, idx) => {
+          document.getElementById(EDIT_PREFIX  + attribute).value = getEditStudentAttributeValue(editStudentAttribtues[idx]);
+      });
+
+      // Set the gender of the person
+      var studentGender = getEditStudentAttributeValue('data-studentGender');
+      document.getElementById(EDIT_GENDER_PREFIX + 'm').checked = false;
+      document.getElementById(EDIT_GENDER_PREFIX + studentGender).checked = true;
+
+    }
+
   </script>
 
-  <script type='text/javascript' src="./displayResults.js"></script>
 </body>
 </html>

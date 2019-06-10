@@ -48,19 +48,25 @@ button:hover {
 }
 
 td {
-  padding: 0px 10px;
+  padding: 5px 10px;
 }
 
 tr {
-  margin: 60px 0px;
-
+  padding: 60px 0px;
 }
 
 .student {
   text-align: center;
-  margin: 20px 5px;
+  margin: 20px 2px;
   display: inline-block;
   position: relative;
+}
+.studentContainer {
+  position: absolute;
+  bottom: 0;
+  margin: 0px auto;
+  left: 0px;
+  right: 0px;
 }
 
 /* BEGIN: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_circles */
@@ -70,12 +76,15 @@ tr {
   background-color: #bbb;
   border-radius: 50%;
   margin: 4px auto;
-
 }
 /* END: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_circles */
 
 .body {
   margin: 0px auto;
+}
+
+#edit_stid, #add_stid {
+  border: 0px;
 }
 
 /* BEGIN: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_tooltip */
