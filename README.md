@@ -48,6 +48,6 @@ The tool tip displays the Full Name, Student ID, and GPA.
 
 ## Easy Student-Editing
 
-When editing a student, the user can use the easy drop-down menu to modify a chosen student. Once a student is selected from the dropdown, the "Edit a student" input fields are prepopulated with the current values of that particular student.
+Users are able to use the easy drop-down menu to alter a chosen student information. Once a student is selected from the dropdown, the "Edit a student" input fields are prepopulated with the current values of that particular student.
 
-Attempts to delete a student will be met with a helpful alert from the window stating that deletes are irreversible. This helps prevent accidental deletes.
+A helpful alert warns attempts to delete a student from the window stating that your requests are irreversible. This notification prevents accidental deletions. 
